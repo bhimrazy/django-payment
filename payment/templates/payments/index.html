@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Payment Module</title>
+    <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+  </head>
+  <body
+    style="font-family: 'Inter', sans-serif"
+    class="flex flex-col justify-center items-center min-h-screen bg-gray-50"
+  >
+    <h1 class="text-4xl font-bold">Payment Module</h1>
+
+    <div class="py-10 max-w-3xl mx-auto grid grid-cols-3 gap-10">
+      <form action="https://uat.esewa.com.np/epay/main" method="POST">
+        <input value="100" name="tAmt" type="hidden" />
+        <input value="90" name="amt" type="hidden" />
+        <input value="5" name="txAmt" type="hidden" />
+        <input value="2" name="psc" type="hidden" />
+        <input value="3" name="pdc" type="hidden" />
+        <input value="EPAYTEST" name="scd" type="hidden" />
+        <input value="sdfghj-dfghjk-rtyshhyui" name="pid" type="hidden" />
+        <input
+          value="http://127.0.0.1:8000/payments/esewa_payment_success?q=su"
+          type="hidden"
+          name="su"
+        />
+        <input
+          value="http://127.0.0.1:8000/payments/esewa_payment_failed?q=fu"
+          type="hidden"
+          name="fu"
+        />
+
+        <button
+          class="max-w-xs bg-white rounded-lg shadow-sm px-6 py-2 hover:shadow-md hover:shadow-purple-100 transition-all"
+          type="submit"
+        >
+          <span class="text-lg font-semibold tracking-wide">Pay with</span>
+          <img
+            class="h-14 w-auto"
+            alt="Pay with Esewa"
+            src="https://www.nepalitimes.com/wp-content/uploads/2021/07/Esewa-Remittance-Payment.png"
+          />
+        </button>
+      </form>
+      <button
+        id="payment-button"
+        class="max-w-xs bg-white rounded-lg shadow-sm px-6 py-2 hover:shadow-md hover:shadow-purple-100 transition-all"
+        type="submit"
+      >
+        <span class="text-lg font-semibold tracking-wide">Pay with Khalti</span>
+        <img
+          class="h-14 w-auto"
+          alt="Pay with Esewa"
+          src="https://dao578ztqooau.cloudfront.net/static/2.69.07-web19/images/khalti-logo.svg"
+        />
+      </button>
+      <form
+        method="post"
+        action="https://hblpgw.2c2p.com/HBLPGW/Payment/Payment/Payment"
+      >
+        <input
+          id="paymentGatewayID"
+          name="paymentGatewayID"
+          value="MechantId"
+          type="hidden"
+        />
+        <input
+          id="invoiceNo"
+          name="invoiceNo"
+          value="00000001234567890333"
+          type="hidden"
+        />
+        <input
+          id="productDesc"
+          name="productDesc"
+          value="Test Product"
+          type="hidden"
+        />
+        <input id="amount" name="amount" value="000000010000" type="hidden" />
+        <input
+          id="currencyCode"
+          name="currencyCode"
+          value="Ex: 524"
+          type="hidden"
+        />
+        <input
+          id="userDefined1"
+          name="userDefined1"
+          value="custom data"
+          type="hidden"
+        />
+        <input id="nonSecure" name="nonSecure" value="Y" type="hidden" />
+        <input
+          id="hashValue"
+          name="hashValue"
+          value="94E8E91C29E73B9648011FADBAE19849B520B24B"
+          type="hidden"
+        />
+        <button
+          class="max-w-xs bg-white rounded-lg shadow-sm px-6 py-2 hover:shadow-md hover:shadow-purple-100 transition-all"
+          type="submit"
+        >
+          <span class="text-lg font-semibold tracking-wide">Pay with</span>
+          <img
+            class="h-14 w-auto"
+            alt="Pay with Esewa"
+            src="https://www.himalayanbank.com/images/HBL-Logo.jpg"
+          />
+        </button>
+      </form>
+    </div>
+    <script>
+      var config = {
+        // replace the publicKey with yours
+        publicKey: "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        productIdentity: "1234567890",
+        productName: "Dragon",
+        productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+        paymentPreference: ["KHALTI"],
+        eventHandler: {
+          onSuccess(payload) {
+            // hit merchant api for initiating verfication
+            console.log(payload);
+          },
+          onError(error) {
+            console.log(error);
+          },
+          onClose() {
+            console.log("widget is closing");
+          },
+        },
+      };
+
+      var checkout = new KhaltiCheckout(config);
+      var btn = document.getElementById("payment-button");
+      btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({ amount: 1000 });
+      };
+    </script>
+    <!-- Paste this code anywhere in you body tag -->
+  </body>
+</html>
